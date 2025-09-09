@@ -18,13 +18,13 @@ export default function Page() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="p-3 rounded-full gradient-web3 shadow-glow animate-float">
+            <div className="p-3 rounded-full bg-[hsl(var(--primary))] shadow-soft animate-float">
               <CheckSquare className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-[hsl(var(--foreground))]">
               Web3 Todos
             </h1>
-            <div className="p-3 rounded-full gradient-web3 shadow-glow animate-float">
+            <div className="p-3 rounded-full bg-[hsl(var(--primary))] shadow-soft animate-float">
               <Zap className="w-8 h-8 text-white" />
             </div>
           </div>
@@ -41,13 +41,13 @@ export default function Page() {
         {/* Main Content */}
         <div className="space-y-6">
           {/* Add Todo Form */}
-          <div className="gradient-card p-6 rounded-lg shadow-card border border-border/50">
+          <div className="card-surface p-6 border border-border/50">
             <AddTodo onAdd={addTodo} disabled={!isConnected} />
           </div>
 
           {/* Connection Status */}
           {!isConnected && (
-            <div className="text-center p-6 gradient-card rounded-lg shadow-card border border-border/50">
+            <div className="text-center p-6 card-surface border border-border/50">
               <div className="text-muted-foreground">
                 <Zap className="w-12 h-12 mx-auto mb-3 text-primary animate-pulse" />
                 <h3 className="text-lg font-medium mb-2">Connect Your Wallet</h3>
@@ -65,7 +65,7 @@ export default function Page() {
               {/* Todo Items */}
               <div className="space-y-3">
                 {todos.length === 0 ? (
-                  <div className="text-center p-8 gradient-card rounded-lg shadow-card border border-border/50">
+                  <div className="text-center p-8 card-surface border border-border/50">
                     <CheckSquare className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
                     <h3 className="text-lg font-medium mb-2">No tasks yet</h3>
                     <p className="text-muted-foreground">

@@ -1,103 +1,100 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useAccount } from 'wagmi';
+import { WalletConnect } from '@/components/WalletConnect';
+import { AddTodo } from '@/components/AddTodo';
+import { TodoItem } from '@/components/TodoItem';
+import { TodoStats } from '@/components/TodoStats';
+import { useTodos } from '@/hooks/useTodos';
+import { CheckSquare, Zap } from 'lucide-react';
+
+export default function Page() {
+  const { isConnected } = useAccount();
+  const { todos, addTodo, toggleTodo, deleteTodo, clearCompleted, editTodo } = useTodos();
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen p-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="p-3 rounded-full gradient-web3 shadow-glow animate-float">
+              <CheckSquare className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+              Web3 Todos
+            </h1>
+            <div className="p-3 rounded-full gradient-web3 shadow-glow animate-float">
+              <Zap className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <p className="text-lg text-muted-foreground mb-6">
+            Your decentralized task manager powered by blockchain technology
+          </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          {/* Wallet Connection */}
+          <div className="mb-8">
+            <WalletConnect />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Main Content */}
+        <div className="space-y-6">
+          {/* Add Todo Form */}
+          <div className="gradient-card p-6 rounded-lg shadow-card border border-border/50">
+            <AddTodo onAdd={addTodo} disabled={!isConnected} />
+          </div>
+
+          {/* Connection Status */}
+          {!isConnected && (
+            <div className="text-center p-6 gradient-card rounded-lg shadow-card border border-border/50">
+              <div className="text-muted-foreground">
+                <Zap className="w-12 h-12 mx-auto mb-3 text-primary animate-pulse" />
+                <h3 className="text-lg font-medium mb-2">Connect Your Wallet</h3>
+                <p>Connect your Web3 wallet to start managing your tasks securely on the blockchain.</p>
+              </div>
+            </div>
+          )}
+
+          {/* Todos List */}
+          {isConnected && (
+            <>
+              {/* Stats */}
+              <TodoStats todos={todos} onClearCompleted={clearCompleted} />
+
+              {/* Todo Items */}
+              <div className="space-y-3">
+                {todos.length === 0 ? (
+                  <div className="text-center p-8 gradient-card rounded-lg shadow-card border border-border/50">
+                    <CheckSquare className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-lg font-medium mb-2">No tasks yet</h3>
+                    <p className="text-muted-foreground">
+                      Add your first task to get started with your Web3 todo list!
+                    </p>
+                  </div>
+                ) : (
+                  todos.map((todo) => (
+                    <TodoItem
+                      key={todo.id}
+                      todo={todo}
+                      onToggle={toggleTodo}
+                      onDelete={deleteTodo}
+                      onEdit={editTodo}
+                    />
+                  ))
+                )}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-12 pt-8 border-t border-border/20">
+          <p className="text-sm text-muted-foreground">
+            Built with ❤️ using Next.js, Wagmi, and Tailwind CSS
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -87,6 +87,7 @@
   .btn-solid {
     background-color: hsl(var(--primary));
     color: hsl(var(--primary-foreground));
+    cursor:pointer;
   }
   .btn-solid:hover {
     background-color: hsl(263 70% 45%);

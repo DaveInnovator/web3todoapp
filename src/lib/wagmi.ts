@@ -8,7 +8,7 @@ export const config = createConfig({
     injected(),
     metaMask(),
     walletConnect({ 
-      projectId: 'your-project-id' 
+      projectId: 'project-id(will upload later)' 
     }),
   ],
   transports: {
